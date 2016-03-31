@@ -6,25 +6,16 @@ import android.util.LruCache;
 
 import com.lizzardry.ril.RememberImageLoader;
 import com.lizzardry.ril.cache.object.CacheableBitmap;
-import com.lizzardry.ril.helper.Utils;
+import com.lizzardry.ril.helpers.Utils;
 
 /**
  * Lev1 Memory cache
  */
 public class Level1CacheLayer implements ILru<String, Bitmap> {
     public static final String TAG = "Level1CacheLayer";
-    // keep singleton
-    private static Level1CacheLayer instance;
-    public static synchronized Level1CacheLayer getInstance() {
-        if (instance == null) {
-            instance = new Level1CacheLayer();
-        }
-        return instance;
-    }
-
     private LruCache<String, CacheableBitmap> bitmapLruCache;
 
-    private Level1CacheLayer() {
+    public Level1CacheLayer() {
         int maxSize = RememberImageLoader.getInstance().getConfiguration().getMaximumMemoryCacheSize();
         bitmapLruCache = new LruCache<String, CacheableBitmap>(maxSize) {
                 protected void entryRemoved(

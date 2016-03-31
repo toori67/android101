@@ -1,4 +1,4 @@
-package com.lizzardry.ril.helper;
+package com.lizzardry.ril.helpers;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

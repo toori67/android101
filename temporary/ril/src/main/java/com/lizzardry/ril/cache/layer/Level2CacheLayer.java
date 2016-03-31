@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.lizzardry.ril.RememberImageLoader;
 import com.lizzardry.ril.aosp.DiskLruCache;
-import com.lizzardry.ril.helper.Utils;
+import com.lizzardry.ril.helpers.Utils;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -21,14 +21,6 @@ import java.io.OutputStream;
 public class Level2CacheLayer implements ILru<String, Bitmap> {
     private static final String TAG = "Level2CacheLayer";
     private static final int DISK_CACHE_INDEX = 0;
-    // keep singleton
-    private static Level2CacheLayer instance;
-    public static synchronized Level2CacheLayer getInstance() {
-        if (instance == null) {
-            instance = new Level2CacheLayer();
-        }
-        return instance;
-    }
 
     private final Object lock = new Object();
 
@@ -38,7 +30,7 @@ public class Level2CacheLayer implements ILru<String, Bitmap> {
     private int compressQuality;
     private Bitmap.Config config;
 
-    private Level2CacheLayer() {
+    public Level2CacheLayer() {
         this.isCacheEnabled = true;
         long maxSize = RememberImageLoader.getInstance().getConfiguration().getMaximumDiskCacheSize();
         File cacheFile = new File(RememberImageLoader.getInstance().getConfiguration().getDiskCachePath());

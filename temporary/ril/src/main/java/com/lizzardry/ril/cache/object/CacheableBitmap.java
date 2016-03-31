@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
 
-import com.lizzardry.ril.helper.Versions;
+import com.lizzardry.ril.helpers.Versions;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
