@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">temporary</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Retro Android</string>
+
+    <string-array name="page_covers">
+        <item>http://www.humorthatworks.com/wp-content/uploads/2009/03/watchmen-lessons.png</item>
+        <item>http://orig03.deviantart.net/dfaa/f/2009/127/9/c/who_watches_the_watchmen__by_non_humana.png</item>
+        <item>http://img01.deviantart.net/fa12/i/2014/019/2/b/minimalist_watchmen_wallpaper___the_comedian_by_shaurden-d70rztx.png</item>
+    </string-array>
+
+    <string name="dummy_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</string>
 </resources>
