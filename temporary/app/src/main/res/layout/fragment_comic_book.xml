@@ -67,6 +67,13 @@
 
         </LinearLayout>
     </com.lizzardry.temporary.views.ScrollDetectScrollView>
+    <View
+        android:id="@+id/fragment_comic_bg_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:alpha="0.7"
+        />
     <ImageView
         android:id="@+id/fragment_comic_rorschach"
         android:layout_width="wrap_content"

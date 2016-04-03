@@ -4,7 +4,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ public class ComicBookFragment extends Fragment {
     public static final int TOTAL_SCROLL_HEIGHT_IN_DP = 1050;
 
     private ScrollDetectScrollView scrollBgView;
+    private View bgShadow;
     private View slogan;
     private View drMan;
     private View rorschach;
@@ -59,12 +59,12 @@ public class ComicBookFragment extends Fragment {
     }
 
     private void initUi(View view) {
+        bgShadow = view.findViewById(R.id.fragment_comic_bg_shadow);
         slogan = view.findViewById(R.id.fragment_comic_slogan);
         rorschach = view.findViewById(R.id.fragment_comic_rorschach);
         nightOwl = view.findViewById(R.id.fragment_comic_night_owl);
         drMan = view.findViewById(R.id.fragment_comic_dr_man);
         scrollBgView = (ScrollDetectScrollView) view.findViewById(R.id.fragment_comic_bg_scroll);
-        // extends scrollview
         scrollBgView.addOnScrollChangedListener(new ScrollDetectScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChanged(int x, int y, int oldX, int oldY) {
@@ -74,7 +74,12 @@ public class ComicBookFragment extends Fragment {
                 float drManSin = (float) Math.sin(currentScrollProgress * Math.PI * 3);
                 drMan.setTranslationY(drManSin * drManTransitionDistance);
                 drMan.setAlpha((1 + drManSin) / 2.f + 0.3f);
-                slogan.setAlpha(1 - currentScrollProgress);
+                float alpha = 1 - currentScrollProgress;
+                if (alpha > 1) {
+                    alpha = 1;
+                }
+                slogan.setAlpha(alpha);
+                bgShadow.setAlpha(alpha * 0.7f);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.lizzardry.temporary.fragments.BaseFragment;
 import com.lizzardry.temporary.fragments.ComicBookFragment;
+import com.lizzardry.temporary.fragments.shared.SharedElementFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
     public TabPagerAdapter(FragmentManager fm){
@@ -17,7 +18,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return new BaseFragment();
         } else if (position == 1) {
-            return new BaseFragment();
+            return new SharedElementFragment();
         } else {
             return new ComicBookFragment();
         }

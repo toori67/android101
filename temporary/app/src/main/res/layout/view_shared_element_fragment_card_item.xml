@@ -10,28 +10,34 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_margin"
         android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
-
-            <TextView
-                android:id="@+id/view_base_fragment_card_item_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold"
+            <ImageView
+                android:id="@+id/view_shared_element_fragment_card_item_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
+                android:transitionName="detail_image"
                 />
-
             <TextView
+                android:id="@+id/view_shared_element_fragment_card_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dummy_text"
+                android:layout_weight="9"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:layout_gravity="center_vertical"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:transitionName="detail_title"
                 />
 
         </LinearLayout>
