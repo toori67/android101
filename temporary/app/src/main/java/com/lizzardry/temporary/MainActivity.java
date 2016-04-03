@@ -8,8 +8,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.lizzardry.ril.RetroImageLoader;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private ImageView imageView;
+    private ImageView imageView2;
+    private ImageView imageView3;
+    private ImageView imageView4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +35,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        init();
+    }
+
+    private void init() {
+        imageView = (ImageView) findViewById(R.id.content_main_image);
+        imageView2 = (ImageView) findViewById(R.id.content_main_image2);
+        imageView3 = (ImageView) findViewById(R.id.content_main_image3);
+        imageView4 = (ImageView) findViewById(R.id.content_main_image4);
+        RetroImageLoader.getInstance().displayImage("http://vignette4.wikia.nocookie.net/epic-rap-battles-of-cartoons/images/c/cb/SpongeBob.png/revision/latest?cb=20131030015532", imageView);
+        RetroImageLoader.getInstance().displayImage("http://i.stack.imgur.com/ILTQq.png", imageView2);
+        RetroImageLoader.getInstance().displayImage("http://pixel.nymag.com/imgs/daily/vulture/2015/09/04/04-captain-america-age-of-ultron.w529.h529.jpg", imageView3);
+        RetroImageLoader.getInstance().displayImage("http://i1.wp.com/cdn.bgr.com/2014/04/captain-america.jpg?w=625", imageView4);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

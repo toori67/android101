@@ -1,6 +1,7 @@
 package com.lizzardry.ril.cache;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.lizzardry.ril.exceptions.KeyNotFoundExcption;
@@ -32,23 +33,24 @@ public class ImageCache {
     }
 
     public Bitmap get(String key) throws KeyNotFoundExcption {
+        Bitmap bitmap = null;
+        int currentLayer = 0;
         for (int i = 0; i < layers.size(); i++) {
             ILru<String, Bitmap> cache  = layers.get(i);
-            if (cache.isEnabled() && cache.has(key)) {
-                Bitmap bitmap = cache.get(key);
-                for(int j=0; j<i; j++) {
-                    ILru<String, Bitmap> upLayerCache = layers.get(j);
-                    upLayerCache.put(key, bitmap);
+            if (cache.isEnabled()) {
+                bitmap = cache.get(key);
+                if (bitmap != null) {
+                    currentLayer = i;
+                    break;
                 }
-                return bitmap;
             }
         }
-        throw new KeyNotFoundExcption(key + " is not found at all;");
-    }
-
-    public void put(String key, Bitmap bitmap) {
-        for (int i=0; i<layers.size(); i++) {
-            layers.get(i).put(key, bitmap);
+        if (bitmap != null) {
+            for (int i=0; i<currentLayer; i++) {
+                layers.get(i).put(key, bitmap);
+            }
+            return bitmap;
         }
+        throw new KeyNotFoundExcption(key + " is not found at all;");
     }
 }

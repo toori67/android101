@@ -10,6 +10,11 @@ public class RetroLoaderConfiguration {
     private String diskCachePath;
     private int compressQuality;
 
+
+    // memCacheSize = Math.round(percent * Runtime.getRuntime().maxMemory() / 1024);
+    // private static final int DEFAULT_DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
+    // private static final int DEFAULT_MEM_CACHE_SIZE = 1024 * 5; // 5MB
+
     public RetroLoaderConfiguration(Builder builder) {
         decodeConfig = builder.decodeConfig;
         appVersion = 1;

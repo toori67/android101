@@ -2,6 +2,7 @@ package com.lizzardry.ril.cache.layer;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.StatFs;
 import android.util.Log;
 
 import com.lizzardry.ril.RetroImageLoader;
@@ -38,7 +39,6 @@ public class Level2CacheLayer implements ILru<String, Bitmap> {
         compressFormat = Bitmap.CompressFormat.PNG;
         compressQuality = RetroImageLoader.getInstance().getConfiguration().getCompressQuality();
         config = RetroImageLoader.getInstance().getConfiguration().getDecodeConfig();
-
         try {
             bitmapDiskLruCache = DiskLruCache.open(cacheFile, appVersion, 1, maxSize);
         } catch (IOException e) {
@@ -63,9 +63,9 @@ public class Level2CacheLayer implements ILru<String, Bitmap> {
                 try {
                     final DiskLruCache.Snapshot snapshot = bitmapDiskLruCache.get(Utils.hashKey(key));
                     if (snapshot != null) {
-                        Log.d(TAG, "Disk cache hit");
                         inputStream = snapshot.getInputStream(DISK_CACHE_INDEX);
                         if (inputStream != null) {
+                            Log.d(TAG, "Disk cache hit " + key);
                             return decode(((FileInputStream) inputStream).getFD());
                         }
                     }
@@ -78,24 +78,24 @@ public class Level2CacheLayer implements ILru<String, Bitmap> {
                         }
                     } catch (IOException e) {
                     }
+                    lock.notifyAll();
                 }
             }
-            lock.notifyAll();
         }
         return null;
     }
 
     private Bitmap decode(FileDescriptor fileDescriptor) {
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
+        options.inJustDecodeBounds = false;
         options.inPreferredConfig = config;
-        return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+            return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
     }
 
 
     @Override
     public void put(String key, Bitmap value) {
-        if (!isEnabled() || get(key) != null) {
+        if (!isEnabled()) {
             return;
         }
         String hashedKey = Utils.hashKey(key);
@@ -124,10 +124,12 @@ public class Level2CacheLayer implements ILru<String, Bitmap> {
                         if (out != null) {
                             out.close();
                         }
-                    } catch (IOException e) {}
+                    } catch (IOException e) {
+                    }
+
+                    lock.notifyAll();
                 }
             }
-            lock.notifyAll();
         }
     }
 

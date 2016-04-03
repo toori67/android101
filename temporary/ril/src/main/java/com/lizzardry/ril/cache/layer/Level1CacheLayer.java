@@ -36,6 +36,7 @@ public class Level1CacheLayer implements ILru<String, Bitmap> {
     public boolean isEnabled() {
         // always true
         return true;
+//        return false;
     }
 
     @Override

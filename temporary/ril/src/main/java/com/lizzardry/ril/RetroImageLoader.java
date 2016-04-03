@@ -1,5 +1,9 @@
 package com.lizzardry.ril;
 
+import android.widget.ImageView;
+
+import com.lizzardry.ril.tasks.BitmapDrawableTask;
+
 /**
  * the very entrance of Retro Image Loader
  */
@@ -15,6 +19,9 @@ public class RetroImageLoader {
     private boolean hasConfigured = false;
     private RetroLoaderConfiguration configuration;
 
+    public RetroImageLoader() {
+    }
+
     public void init(RetroLoaderConfiguration config) {
         this.configuration = config;
         hasConfigured = true;
@@ -24,7 +31,11 @@ public class RetroImageLoader {
         if (!hasConfigured) {
             throw new IllegalStateException("RIL not configured");
         }
-
         return configuration;
+    }
+
+    public void displayImage(final String url, final ImageView imageView) {
+        BitmapDrawableTask bitmapDrawableTask = new BitmapDrawableTask(imageView);
+        bitmapDrawableTask.execute(url);
     }
 }
