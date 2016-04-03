@@ -6,10 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.lizzardry.ril.RetroImageLoader;
 import com.lizzardry.temporary.Adapters.TabPagerAdapter;
+import com.lizzardry.temporary.fragments.ComicBookFragment;
+import com.lizzardry.temporary.fragments.ComicPagerTransform;
+import com.lizzardry.temporary.utils.ScreenUtil;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
@@ -64,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        int comicPageScrollHeight = (int) ScreenUtil.dpToPx(getResources().getDisplayMetrics(), ComicBookFragment.TOTAL_SCROLL_HEIGHT_IN_DP);
+        mViewPager.setPageTransformer(true, new ComicPagerTransform(comicPageScrollHeight));
         RetroImageLoader.getInstance().displayImage(coverUrls[0], imageView);
     }
 }

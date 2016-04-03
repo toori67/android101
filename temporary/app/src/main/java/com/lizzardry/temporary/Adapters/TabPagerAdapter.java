@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.lizzardry.temporary.fragments.BaseFragment;
+import com.lizzardry.temporary.fragments.ComicBookFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
     public TabPagerAdapter(FragmentManager fm){
@@ -13,7 +14,13 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new BaseFragment();
+        if (position == 0) {
+            return new BaseFragment();
+        } else if (position == 1) {
+            return new BaseFragment();
+        } else {
+            return new ComicBookFragment();
+        }
     }
 
     @Override
