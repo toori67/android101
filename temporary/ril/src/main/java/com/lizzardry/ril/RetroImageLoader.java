@@ -3,6 +3,7 @@ package com.lizzardry.ril;
 import android.widget.ImageView;
 
 import com.lizzardry.ril.tasks.BitmapDrawableTask;
+import com.lizzardry.ril.tasks.RetroImageTaskManager;
 
 /**
  * the very entrance of Retro Image Loader
@@ -35,7 +36,10 @@ public class RetroImageLoader {
     }
 
     public void displayImage(final String url, final ImageView imageView) {
-        BitmapDrawableTask bitmapDrawableTask = new BitmapDrawableTask(imageView);
-        bitmapDrawableTask.execute(url);
+        RetroImageTaskManager.getInstance().put(imageView, new BitmapDrawableTask(imageView), url);
+    }
+
+    public void cancelTask(ImageView imageView) {
+        RetroImageTaskManager.getInstance().cancel(imageView);
     }
 }
