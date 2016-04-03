@@ -13,7 +13,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return BaseFragment.newInstance();
+        return new BaseFragment();
     }
 
     @Override

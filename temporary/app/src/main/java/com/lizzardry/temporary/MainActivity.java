@@ -1,6 +1,7 @@
 package com.lizzardry.temporary;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.lizzardry.ril.RetroImageLoader;
 import com.lizzardry.temporary.Adapters.TabPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    private AppBarLayout appBarLayout;
     private ImageView imageView;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -26,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUi() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-        imageView = (ImageView) findViewById(R.id.backdrop);
-        mViewPager= (ViewPager) findViewById(R.id.content_main_view_pager);
-        mTabLayout= (TabLayout) findViewById(R.id.detail_tabs);
+        appBarLayout = (AppBarLayout) findViewById(R.id.activity_main_appbar);
+        imageView = (ImageView) findViewById(R.id.activity_main_backdrop);
+        mViewPager= (ViewPager) findViewById(R.id.activity_main_view_pager);
+        mTabLayout= (TabLayout) findViewById(R.id.activity_main_detail_tabs);
     }
 
     private void initEvent() {
@@ -48,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if (position == 0) {
+                    appBarLayout.setExpanded(true, true);
+                } else {
+                    appBarLayout.setExpanded(false, true);
+                }
                 RetroImageLoader.getInstance().displayImage(coverUrls[position], imageView);
             }
 
