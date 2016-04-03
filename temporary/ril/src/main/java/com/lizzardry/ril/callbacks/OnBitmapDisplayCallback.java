@@ -21,7 +21,7 @@ public abstract class OnBitmapDisplayCallback implements ImageLoaderCallbackInte
     }
 
     /**
-     * BitmapDrawable 로 바꾸려면 context 가 필요한데 그건 RememberImageLoader 에 위임 시켜버리자
+     * BitmapDrawable 로 바꾸려면 context 가 필요한데 그건 RetroImageLoader 에 위임 시켜버리자
      * @param bitmap
      * @param imageView
      */

@@ -2,7 +2,7 @@ package com.lizzardry.ril;
 
 import android.graphics.Bitmap;
 
-public class RememberImageLoaderConfiguration {
+public class RetroLoaderConfiguration {
     private Bitmap.Config decodeConfig;
     private int appVersion;
     private int maximumMemoryCacheSize;
@@ -10,7 +10,7 @@ public class RememberImageLoaderConfiguration {
     private String diskCachePath;
     private int compressQuality;
 
-    public RememberImageLoaderConfiguration(Builder builder) {
+    public RetroLoaderConfiguration(Builder builder) {
         decodeConfig = builder.decodeConfig;
         appVersion = 1;
         maximumMemoryCacheSize = builder.maximumMemoryCacheSize;
@@ -75,8 +75,8 @@ public class RememberImageLoaderConfiguration {
             return this;
         }
 
-        public RememberImageLoaderConfiguration build() {
-            return new RememberImageLoaderConfiguration(this);
+        public RetroLoaderConfiguration build() {
+            return new RetroLoaderConfiguration(this);
         }
     }
 }

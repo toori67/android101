@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.lizzardry.ril.RememberImageLoader;
+import com.lizzardry.ril.RetroImageLoader;
 import com.lizzardry.ril.aosp.DiskLruCache;
 import com.lizzardry.ril.helpers.Utils;
 
@@ -32,12 +32,12 @@ public class Level2CacheLayer implements ILru<String, Bitmap> {
 
     public Level2CacheLayer() {
         this.isCacheEnabled = true;
-        long maxSize = RememberImageLoader.getInstance().getConfiguration().getMaximumDiskCacheSize();
-        File cacheFile = new File(RememberImageLoader.getInstance().getConfiguration().getDiskCachePath());
-        int appVersion = RememberImageLoader.getInstance().getConfiguration().getAppVersion();
+        long maxSize = RetroImageLoader.getInstance().getConfiguration().getMaximumDiskCacheSize();
+        File cacheFile = new File(RetroImageLoader.getInstance().getConfiguration().getDiskCachePath());
+        int appVersion = RetroImageLoader.getInstance().getConfiguration().getAppVersion();
         compressFormat = Bitmap.CompressFormat.PNG;
-        compressQuality = RememberImageLoader.getInstance().getConfiguration().getCompressQuality();
-        config = RememberImageLoader.getInstance().getConfiguration().getDecodeConfig();
+        compressQuality = RetroImageLoader.getInstance().getConfiguration().getCompressQuality();
+        config = RetroImageLoader.getInstance().getConfiguration().getDecodeConfig();
 
         try {
             bitmapDiskLruCache = DiskLruCache.open(cacheFile, appVersion, 1, maxSize);

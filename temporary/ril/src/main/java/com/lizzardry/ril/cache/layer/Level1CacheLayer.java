@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
 
-import com.lizzardry.ril.RememberImageLoader;
+import com.lizzardry.ril.RetroImageLoader;
 import com.lizzardry.ril.cache.object.CacheableBitmap;
 import com.lizzardry.ril.helpers.Utils;
 
@@ -16,7 +16,7 @@ public class Level1CacheLayer implements ILru<String, Bitmap> {
     private LruCache<String, CacheableBitmap> bitmapLruCache;
 
     public Level1CacheLayer() {
-        int maxSize = RememberImageLoader.getInstance().getConfiguration().getMaximumMemoryCacheSize();
+        int maxSize = RetroImageLoader.getInstance().getConfiguration().getMaximumMemoryCacheSize();
         bitmapLruCache = new LruCache<String, CacheableBitmap>(maxSize) {
                 protected void entryRemoved(
                         boolean evicted, String key,
