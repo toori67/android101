@@ -1,10 +1,12 @@
 package com.lizzardry.temporary.dao;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.lizzardry.temporary.dao.beans.Contact;
 import com.lizzardry.temporary.dao.tables.ContactTable;
@@ -13,13 +15,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlWrapper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "retro_android_database.db";
     private static final int DATABASE_VERSION = 3;
+    private static SqlWrapper instance;
+    public static synchronized SqlWrapper getInstance(Context context) {
+        if (instance == null) {
+            instance = new SqlWrapper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
-
-    public SqlWrapper(Context context) {
+    private SqlWrapper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -50,22 +60,61 @@ public class SqlWrapper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(ContactTable.CREATE_V_TEXT_TABLE_TRIGGER);
     }
 
-    public void insert(Contact contact) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(ContactTable.COL_NAME, contact.getName());
-        values.put(ContactTable.COL_COMPANY, contact.getCompany());
-        values.put(ContactTable.COL_DEPT, contact.getDepartment());
-        values.put(ContactTable.COL_POSITION, contact.getPosition());
-        values.put(ContactTable.COL_PHONE, contact.getPhone());
-        values.put(ContactTable.COL_ADDRESS, contact.getAddress());
-        values.put(ContactTable.COL_DOC, contact.getDocument());
-        db.insert(ContactTable.CONTACT_TABLE_NAME, null, values);
+    public List<Contact> selectFromDocuments(String criterions) {
+        List<Contact> results = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        if (TextUtils.isEmpty(criterions)) {
+            return results;
+        }
+        String criterionString;
+        String[] criterionList = criterions.split("\\s");
+        for (int i=0; i<criterionList.length; i++) {
+            String criterion = ContactTable.COL_DOC + " LIKE '%" + criterionList[i]+ "%'";
+            criterionList[i] = criterion;
+        }
+        if (criterionList.length == 1) {
+            criterionString = criterionList[0];
+        } else if (criterionList.length > 1) {
+            criterionString = TextUtils.join(" AND ", criterionList);
+        } else {
+            return results;
+        }
+
+        Cursor cursor = sqLiteDatabase.rawQuery(
+                String.format(ContactTable.SELECT_WITH_STRING_TICKLE_QUERY_FORMAT, criterionString),
+                null
+        );
+        try {
+            while (cursor.moveToNext()) {
+                int nameColIdx = cursor.getColumnIndex(ContactTable.COL_NAME);
+                int companyColIdx = cursor.getColumnIndex(ContactTable.COL_COMPANY);
+                int deptColIdx = cursor.getColumnIndex(ContactTable.COL_DEPT);
+                int positionColIdx = cursor.getColumnIndex(ContactTable.COL_POSITION);
+                int phoneColIdx = cursor.getColumnIndex(ContactTable.COL_PHONE);
+                int addressColIdx = cursor.getColumnIndex(ContactTable.COL_ADDRESS);
+                results.add(
+                        new Contact(
+                                cursor.getString(nameColIdx),
+                                cursor.getString(companyColIdx),
+                                cursor.getString(deptColIdx),
+                                cursor.getString(positionColIdx),
+                                cursor.getString(phoneColIdx),
+                                cursor.getString(addressColIdx)
+                        )
+                );
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return results;
     }
 
 
     /**
-     * never call on UI Thread 느릴듯 rebuild 가
+     * never call on UI Thread 느릴듯 rebuild 가 -> 오 안느린데?
      * @param inputStream
      */
     public void bulkInsert(InputStream inputStream) {
@@ -79,7 +128,7 @@ public class SqlWrapper extends SQLiteOpenHelper {
             contactInsertStatement = db.compileStatement(ContactTable.INSERT_CONTACT_QUERY);
             while ((line = buffer.readLine()) != null) {
                 String[] values = line.split(",");
-                String doc = line.replace(",", "").replaceAll("\\s", "").toLowerCase();
+                String doc = line.replace(",", " ").toLowerCase();
                 int i = 0;
                 for (i=0; i<values.length; i++) {
                     contactInsertStatement.bindString(i+1, values[i]);
@@ -103,10 +152,10 @@ public class SqlWrapper extends SQLiteOpenHelper {
                 }
             } catch (IOException e) {}
         }
-        rebuildDocument();
+        rebuildDocumentIndex();
     }
 
-    private void rebuildDocument() {
+    private void rebuildDocumentIndex() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(ContactTable.REBUILD_V_TEXT_TABLE_QUERY);
     }

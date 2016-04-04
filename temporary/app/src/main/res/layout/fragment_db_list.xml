@@ -4,27 +4,33 @@
     android:layout_height="match_parent"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
         >
-        <TextView
+        <Button
             android:id="@+id/fragment_db_list_init_btn"
             android:text="init"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:textColor="#f02343"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
             android:textSize="20sp"
             android:gravity="center"
-            android:background="@color/colorPrimary"
+            android:layout_alignParentRight="true"
             />
-        <Button
-            android:id="@+id/fragment_db_list_insert_btn"
-            android:text="insert"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+        <EditText
+            android:id="@+id/fragment_db_list_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/fragment_db_list_init_btn"
+            android:singleLine="true"
             />
-    </LinearLayout>
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_db_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        />
 
 </FrameLayout>

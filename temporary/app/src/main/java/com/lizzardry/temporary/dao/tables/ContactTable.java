@@ -54,13 +54,22 @@ public class ContactTable {
     public static final String DROP_CONTACT_QUERY = "DROP TABLE IF EXISTS " + CONTACT_TABLE_NAME;
     public static final String DROP_INDEX_QUERY = "DROP TABLE IF EXISTS " + CONTACT_V_TABLE_NAME;
 
-    public static final String SELECT_WITH_STRING_TICKLE_QUERY_FORMAT = "SELECT * from " +
+    public static final String SELECT_WITH_STRING_TICKLE_QUERY_FORMAT =
+            "select *\n" +
+                    "from contact_table\n" +
+                    "where col_contact_id \n" +
+                    "in \n" +
+                    "(select docid from contact_index_table where %s)";
+            /*
+            "SELECT * from " +
             CONTACT_TABLE_NAME +
             " WHERE "+ COL_ID
             + " IN " +
             "(SELECT " + COL_V_TABLE_DOC_ID +
             " FROM " + CONTACT_V_TABLE_NAME +
             " WHERE " + COL_DOC + " LIKE ?)";
+            */
+
 
     public static final String INSERT_CONTACT_QUERY =
             "INSERT INTO " + CONTACT_TABLE_NAME +
