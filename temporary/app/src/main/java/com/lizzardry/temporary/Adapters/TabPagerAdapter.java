@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.lizzardry.temporary.fragments.BaseFragment;
 import com.lizzardry.temporary.fragments.ComicBookFragment;
+import com.lizzardry.temporary.fragments.DbListFragment;
 import com.lizzardry.temporary.fragments.shared.SharedElementFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
@@ -19,14 +20,16 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
             return new BaseFragment();
         } else if (position == 1) {
             return new SharedElementFragment();
-        } else {
+        } else if (position == 2) {
             return new ComicBookFragment();
+        } else {
+            return new DbListFragment();
         }
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
